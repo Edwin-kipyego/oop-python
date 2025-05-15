@@ -6,11 +6,12 @@ class Student:
     # keep track of all the instance that are created
     all_students = []
 
-    def __init__(self, first_name, last_name, age, gender):
+    def __init__(self, first_name, last_name, age, gender, phone_number=None):
         self.first_name = first_name
         self.last_name = last_name
         self.age = age
         self.gender = gender
+        self.phone_number = phone_number
         Student.total_students += 1
         Student.total_age += age
         Student.all_students.append(self)
@@ -60,6 +61,20 @@ class Student:
         else:
             self._gender = value
 
+    # phone number property
+    @property
+    def phone_number(self):
+        return self._phone_number
+
+    @phone_number.setter
+    def phone_number(self, number):
+        if number is None:
+            self._phone_number = None
+        elif isinstance(number, str) and number.isdigit() and (7 <= len(number) <= 15):
+            self._phone_number = number
+        else:
+            raise ValueError("Phone number must be a string of digits (7-15 characters) or None.")
+
     # class methods
     @classmethod
     def total_student_tally(cls):
@@ -95,13 +110,12 @@ class Student:
         return str(self.__dict__)
 
 
-student_1 = Student("John", "True", 23, "Male")
-student_2 = Student("Jane", "Doe", 25, "Female")
-student_3 = Student("Alex", "Hormozi", 30, "Male")
-student_4 = Student("Mary", "Magdalene", 20, "Female")
-
-student_5 = Student("Fred", "Kilowatt", 35, "Male")
-student_6 = Student("Ruth", "Naomi", 26, "Female")
+student_1 = Student("John", "True", 23, "Male", "0712345678")
+student_2 = Student("Jane", "Doe", 25, "Female", "0723456789")
+student_3 = Student("Alex", "Hormozi", 30, "Male", "0734567890")
+student_4 = Student("Mary", "Magdalene", 20, "Female", "0745678901")
+student_5 = Student("Fred", "Kilowatt", 35, "Male", "0756789012")
+student_6 = Student("Ruth", "Naomi", 26, "Female", "0767890123")
 
 # class variables and Methods
 print(Student.total_students)
@@ -120,10 +134,17 @@ print(Student.average_age())
 print(Student.student_first_names())
 
 # get all male students
-print(Student.get_specific_gender_students(gender="Male"))
+print(Student.get_specific_gender_students(gender="Male", ))
 
 # get all female students
 print(Student.get_specific_gender_students(gender="Female"))
 
+# ...existing code...
 
+# print all students' phone numbers
+print("Student Phone Numbers:")
+for student in Student.all_students:
+    print(f"{student.first_name} {student.last_name}: {student.phone_number}")
+
+# ...existing code...
 # inheritance
